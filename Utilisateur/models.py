@@ -1,23 +1,16 @@
+from django.contrib.auth.models import AbstractUser
 from django.db import models
 
 
-class Utilisateur(models.Model):
-    nom = models.CharField(max_length=100)
-    email = models.EmailField(max_length=191, unique=True)
-    numero_tel = models.CharField(max_length=20)
-    motdepasse = models.CharField(max_length=128)
+class Utilisateur(AbstractUser):
+    numero_tel = models.CharField(max_length=20, blank=True)
+    adresse = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
-        return self.nom
+        return self.username
 
+    def est_admin(self):
+        return self.is_staff
 
-class Client(Utilisateur):
-    adresse = models.CharField(max_length=255)
-
-    def __str__(self):
-        return f"Client : {self.nom}"
-
-
-class Admin(Utilisateur):
-    def __str__(self):
-        return f"Admin : {self.nom}"
+    def est_client(self):
+        return not self.is_staff

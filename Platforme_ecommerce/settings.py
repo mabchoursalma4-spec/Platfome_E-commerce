@@ -126,3 +126,5 @@ STATIC_URL = 'static/'
 # Configuration email pour les tests
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'noreply@Tits.com'
+ #Custom user model
+AUTH_USER_MODEL = 'Utilisateur.Utilisateur'

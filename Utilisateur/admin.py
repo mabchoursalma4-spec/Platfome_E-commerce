@@ -1,6 +1,34 @@
 from django.contrib import admin
-from .models import Utilisateur, Client, Admin
+from django.contrib.auth.admin import UserAdmin
+from .models import Utilisateur
 
-admin.site.register(Utilisateur)
-admin.site.register(Client)
-admin.site.register(Admin)
+
+@admin.register(Utilisateur)
+class UtilisateurAdmin(UserAdmin):
+    list_display = (
+        'username',
+        'email',
+        'numero_tel',
+        'adresse',
+        'is_staff',
+        'is_superuser',
+        'is_active',
+    )
+
+    list_filter = (
+        'is_staff',
+        'is_superuser',
+        'is_active',
+    )
+
+    fieldsets = UserAdmin.fieldsets + (
+        ('Informations supplémentaires', {
+            'fields': ('numero_tel', 'adresse')
+        }),
+    )
+
+    add_fieldsets = UserAdmin.add_fieldsets + (
+        ('Informations supplémentaires', {
+            'fields': ('email', 'numero_tel', 'adresse')
+        }),
+    )
