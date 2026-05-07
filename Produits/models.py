@@ -1,41 +1,32 @@
 from django.db import models
-from Utilisateur.models import Admin
+from django.utils import timezone
 
-
+#Modèle de Catégorie 
 class Categorie(models.Model):
-    idCat = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nom
 
-
+# Modèle de Produit
 class Produit(models.Model):
-    idProduit = models.AutoField(primary_key=True)
     nom = models.CharField(max_length=100)
-    prix = models.FloatField(default=0)
+    description = models.TextField(blank=True, default="")
+    image = models.ImageField(upload_to='produits/', blank=True, null=True)
 
-    image = models.ImageField(upload_to='produits/', null=True, blank=True)
-    stock = models.IntegerField(default=0)
+    prix = models.FloatField()
+    stock = models.IntegerField()
 
-    dateAjout = models.DateField(auto_now_add=True)
-    dateModif = models.DateField(auto_now=True)
-    dateSupp = models.DateField(null=True, blank=True)
-
+    date_ajout = models.DateField(auto_now_add=True)
+    date_modif = models.DateField(auto_now=True)
+    date_supp = models.DateField(blank=True, null=True)
+# relation avec la catégorie du produit
     categorie = models.ForeignKey(
         Categorie,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
         related_name='produits'
-    )
-
-    admin = models.ForeignKey(
-        Admin,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        related_name='produits_geres'
     )
 
     def __str__(self):
@@ -52,5 +43,29 @@ class Produit(models.Model):
         self.stock += quantite
         self.save()
 
-    def verifier_stock(self, quantite=1):
-        return self.stock >= quantite
+    def verifier_stock(self):
+        return self.stock > 0
+
+
+class Promotion(models.Model):
+    nom = models.CharField(max_length=100)
+    description = models.TextField(blank=True, default="")
+    taux_reduction = models.FloatField()
+    date_debut = models.DateField()
+    date_fin = models.DateField()
+# relation avec le produit concerné par la promotion
+    produit = models.ForeignKey(
+        Produit,
+        on_delete=models.CASCADE,
+        related_name='promotions'
+    )
+
+    def __str__(self):
+        return self.nom
+
+    def appliquer_promotion(self):
+        return self.produit.prix - (self.produit.prix * self.taux_reduction / 100)
+
+    def verifier_validite(self):
+        today = timezone.now().date()
+        return self.date_debut <= today <= self.date_fin
