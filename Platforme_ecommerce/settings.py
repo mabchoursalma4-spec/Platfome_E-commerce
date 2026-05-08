@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'Produits',
     'notification',
     'Commande',
+    'Platforme_ecommerce',
 ]
 
 MIDDLEWARE = [
@@ -75,7 +76,8 @@ WSGI_APPLICATION = 'Platforme_ecommerce.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
+#dyal salma
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -87,7 +89,21 @@ DATABASES = {
     }
 }
 
-
+"""
+#dial hafsa
+DATABASES = {
+    'default': {
+        'ENGINE': 'mysql.connector.django', 
+        'NAME': 'plateforme_ecommerce',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'HOST': '127.0.0.1',
+        'PORT': '8889',
+        'OPTIONS': {
+            'auth_plugin': 'mysql_native_password', 
+        },
+    }
+}
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 
