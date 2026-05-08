@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'Utilisateur',
     'Produits',
-    'notification',
     'Commande',
     'Platforme_ecommerce',
 ]

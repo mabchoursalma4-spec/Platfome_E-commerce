@@ -1,7 +1,7 @@
 from django.db import models
 from django.conf import settings
 from Produits.models import Produit
-from notification.services import EmailService
+
 
 
 # Énumération pour les statuts de commande
@@ -35,24 +35,6 @@ class Commande(models.Model):
     def __str__(self):
         return f"Commande {self.num_commande}"
 
-    # Modification du statut de la commande et envoi d'email de notification
-    def modifier_statut_commande(self, statut):
-        self.statut = statut
-        self.save()
-
-        if statut == StatutCommande.VALIDEE:
-            EmailService.envoyer_confirmation_commande(
-                self.client.email,
-                self.num_commande
-            )
-
-        elif statut == StatutCommande.ANNULEE:
-            EmailService.envoyer_annulation_commande(
-                self.client.email,
-                self.num_commande
-            )
-
-        return True
 
     # Calcul du total de la commande en fonction des lignes de commande
     def calculer_total(self):
