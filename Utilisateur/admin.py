@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .models import Utilisateur
+
+
 @admin.register(Utilisateur)
 class UtilisateurAdmin(UserAdmin):
     list_display = (
@@ -17,6 +19,13 @@ class UtilisateurAdmin(UserAdmin):
         'is_staff',
         'is_superuser',
         'is_active',
+    )
+
+    search_fields = (
+        'username',
+        'email',
+        'numero_tel',
+        'adresse',
     )
 
     fieldsets = UserAdmin.fieldsets + (

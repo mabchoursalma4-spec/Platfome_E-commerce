@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.conf import settings
 
 #Modèle de Catégorie 
 class Categorie(models.Model):
@@ -45,6 +46,28 @@ class Produit(models.Model):
 
     def verifier_stock(self):
         return self.stock > 0
+    
+    # Méthode pour obtenir la promotion active du produit
+    """Cette méthode sert à chercher si le produit a une promotion active aujourd’hui."""
+    def promotion_active(self):
+        from django.utils import timezone
+
+        today = timezone.now().date()
+
+        return self.promotions.filter(
+            date_debut__lte=today,
+            date_fin__gte=today
+        ).first()
+    '''
+    #Ce code est à mettre dans un template HTML 
+    #Il sert à afficher la promotion active d’un produit, si elle existe.
+    {% with promo=produit.promotion_active %}
+    {% if promo %}
+        <span class="badge-promo">-{{ promo.taux_reduction }}%</span>
+        <p>{{ promo.description }}</p>
+    {% endif %}
+{% endwith %}
+    '''
 
 
 class Promotion(models.Model):
@@ -53,7 +76,7 @@ class Promotion(models.Model):
     taux_reduction = models.FloatField()
     date_debut = models.DateField()
     date_fin = models.DateField()
-# relation avec le produit concerné par la promotion
+
     produit = models.ForeignKey(
         Produit,
         on_delete=models.CASCADE,
@@ -63,9 +86,12 @@ class Promotion(models.Model):
     def __str__(self):
         return self.nom
 
-    def appliquer_promotion(self):
-        return self.produit.prix - (self.produit.prix * self.taux_reduction / 100)
-
     def verifier_validite(self):
         today = timezone.now().date()
         return self.date_debut <= today <= self.date_fin
+
+    def prix_apres_promotion(self):
+        if self.verifier_validite():
+            return self.produit.prix - (self.produit.prix * self.taux_reduction / 100)
+        return self.produit.prix
+    

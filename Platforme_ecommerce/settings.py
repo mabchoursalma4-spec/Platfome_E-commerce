@@ -65,6 +65,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                #un context processor pour les statistiques de l'admin
+                'Utilisateur.context_processors.admin_dashboard_stats',
             ],
         },
     },
