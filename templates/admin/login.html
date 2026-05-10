@@ -1,0 +1,327 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<style>
+    :root {
+        --bg-main: #f6f1ea;
+        --bg-card: #fffdf9;
+        --text-main: #2b2119;
+        --text-soft: #74685d;
+        --gold: #bd8b43;
+        --gold-dark: #9d6e2e;
+        --border: #eadcc8;
+        --black-soft: #25221f;
+        --danger: #b42318;
+    }
+
+    body {
+        margin: 0;
+        background:
+            radial-gradient(circle at top left, rgba(189, 139, 67, 0.12), transparent 34%),
+            radial-gradient(circle at bottom right, rgba(189, 139, 67, 0.10), transparent 35%),
+            var(--bg-main) !important;
+        font-family: Arial, Helvetica, sans-serif;
+        color: var(--text-main);
+    }
+
+    #header,
+    .breadcrumbs {
+        display: none !important;
+    }
+
+    #container {
+        background: transparent !important;
+        min-height: 100vh;
+    }
+
+    #content {
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100%;
+    }
+
+    #content-main {
+        width: 100%;
+        float: none !important;
+    }
+
+    .login-page {
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 35px;
+        box-sizing: border-box;
+    }
+
+    .login-card {
+        width: min(1120px, 100%);
+        min-height: 620px;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: 0 30px 90px rgba(70, 48, 28, 0.16);
+    }
+
+    /* image gauche */
+    .login-image {
+        position: relative;
+        overflow: hidden;
+        background: #efe1cf;
+        border-right: 1px solid rgba(189, 139, 67, 0.45);
+    }
+
+    .login-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* formulaire droite */
+    .login-form-zone {
+        background: #fffdf9;
+        padding: 60px 58px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .login-form-inner {
+        width: 100%;
+        max-width: 410px;
+    }
+
+    .form-title {
+        text-align: center;
+        margin-bottom: 36px;
+    }
+
+    .form-title h2 {
+        margin: 0;
+        font-size: 42px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 500;
+        color: var(--text-main);
+    }
+
+    .decor-line {
+        width: 165px;
+        height: 1px;
+        margin: 18px auto 22px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        position: relative;
+    }
+
+    .decor-line::after {
+        content: "❧";
+        position: absolute;
+        top: -13px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #fffdf9;
+        color: var(--gold);
+        padding: 0 12px;
+        font-size: 18px;
+    }
+
+    .form-title p {
+        margin: 0;
+        color: var(--text-soft);
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .form-row {
+        margin-bottom: 24px;
+        padding: 0 !important;
+        border: none !important;
+    }
+
+    .form-row label {
+        display: block;
+        margin-bottom: 9px;
+        color: #4d3b2d;
+        font-weight: 700;
+        font-size: 14px;
+    }
+
+    .form-row input {
+        width: 100%;
+        box-sizing: border-box;
+        background: #fffaf3;
+        border: 1px solid var(--border);
+        color: var(--text-main);
+        border-radius: 16px;
+        padding: 16px 17px;
+        font-size: 15px;
+        outline: none;
+        transition: 0.25s;
+    }
+
+    .form-row input:hover {
+        border-color: rgba(189, 139, 67, 0.55);
+    }
+
+    .form-row input:focus {
+        border-color: var(--gold);
+        box-shadow: 0 0 0 5px rgba(189, 139, 67, 0.16);
+        background: #ffffff;
+    }
+
+    .submit-row {
+        padding: 0 !important;
+        margin: 32px 0 0 !important;
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .submit-row input {
+        width: 100%;
+        background: linear-gradient(135deg, var(--gold-dark), var(--gold)) !important;
+        color: white !important;
+        border: none !important;
+        border-radius: 16px !important;
+        padding: 16px 22px !important;
+        font-weight: 800 !important;
+        font-size: 15px !important;
+        cursor: pointer;
+        transition: 0.25s;
+        box-shadow: 0 15px 28px rgba(189, 139, 67, 0.25);
+    }
+
+    .submit-row input:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 18px 34px rgba(189, 139, 67, 0.32);
+    }
+
+    .errornote,
+    .errorlist {
+        background: #fff2f0 !important;
+        color: var(--danger) !important;
+        border: 1px solid #f3b7b0 !important;
+        border-radius: 14px;
+        padding: 13px 15px !important;
+        margin: 0 0 20px !important;
+        font-size: 14px;
+    }
+
+    .small-help {
+        margin-top: 22px;
+        text-align: center;
+        color: var(--text-soft);
+        font-size: 13px;
+    }
+
+    .small-help strong {
+        color: var(--text-main);
+    }
+
+    @media (max-width: 900px) {
+        .login-card {
+            grid-template-columns: 1fr;
+        }
+
+        .login-image {
+            height: 360px;
+        }
+
+        .login-form-zone {
+            padding: 42px 30px;
+        }
+    }
+
+    @media (max-width: 520px) {
+        .login-page {
+            padding: 18px;
+        }
+
+        .login-card {
+            border-radius: 24px;
+        }
+
+        .form-title h2 {
+            font-size: 32px;
+        }
+
+        .login-form-zone {
+            padding: 34px 22px;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content_title %}{% endblock %}
+
+{% block content %}
+
+<div class="login-page">
+    <div class="login-card">
+
+        <section class="login-image">
+            <img src="{% static 'admin/img/login-cosmetique.png' %}" alt="Titrit cosmétique naturel">
+        </section>
+
+        <section class="login-form-zone">
+            <div class="login-form-inner">
+
+                <div class="form-title">
+                    <h2>Connexion</h2>
+                    <div class="decor-line"></div>
+                    <p>Entrez vos identifiants pour accéder au tableau de bord.</p>
+                </div>
+
+                {% if form.errors and not form.non_field_errors %}
+                    <p class="errornote">
+                        Nom d’utilisateur ou mot de passe incorrect.
+                    </p>
+                {% endif %}
+
+                {% if form.non_field_errors %}
+                    {% for error in form.non_field_errors %}
+                        <p class="errornote">{{ error }}</p>
+                    {% endfor %}
+                {% endif %}
+
+                <form action="{{ app_path }}" method="post" id="login-form">
+                    {% csrf_token %}
+
+                    <div class="form-row">
+                        {{ form.username.errors }}
+                        <label for="{{ form.username.id_for_label }}">
+                            Nom d’utilisateur
+                        </label>
+                        {{ form.username }}
+                    </div>
+
+                    <div class="form-row">
+                        {{ form.password.errors }}
+                        <label for="{{ form.password.id_for_label }}">
+                            Mot de passe
+                        </label>
+                        {{ form.password }}
+                        <input type="hidden" name="next" value="{{ next }}">
+                    </div>
+
+                    <div class="submit-row">
+                        <input type="submit" value="Se connecter">
+                    </div>
+                </form>
+
+                <div class="small-help">
+                    Accès réservé à <strong>l’administrateur</strong>.
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -6,6 +6,7 @@ from .models import Utilisateur
 @admin.register(Utilisateur)
 class UtilisateurAdmin(UserAdmin):
     list_display = (
+        'id',
         'username',
         'email',
         'numero_tel',

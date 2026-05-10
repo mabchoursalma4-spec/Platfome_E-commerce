@@ -1,0 +1,233 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block content_title %}{% endblock %}
+
+{% block extrastyle %}
+{{ block.super }}
+
+<style>
+    .dashboard-hero {
+        background: rgba(255,253,249,0.86);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 30px 34px;
+        margin-bottom: 28px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        box-shadow: 0 14px 34px rgba(70, 48, 28, 0.05);
+    }
+
+    .dashboard-hero h1 {
+        margin: 0;
+        font-family: Georgia, "Times New Roman", serif;
+        font-weight: 500;
+        font-size: 38px;
+        color: var(--text-main);
+    }
+
+    .dashboard-hero p {
+        margin: 10px 0 0;
+        color: var(--text-soft);
+        font-size: 14px;
+    }
+
+    .hero-badge {
+        background: linear-gradient(135deg, var(--gold-dark), var(--gold));
+        color: white;
+        padding: 12px 22px;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 800;
+        letter-spacing: 1px;
+        text-transform: uppercase;
+        white-space: nowrap;
+        box-shadow: 0 12px 22px rgba(189, 139, 67, 0.20);
+    }
+
+    .dashboard-cards {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(180px, 1fr));
+        gap: 20px;
+        margin-bottom: 34px;
+    }
+
+    .dashboard-card {
+        background: rgba(255,253,249,0.90);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 26px 24px;
+        box-shadow: 0 14px 30px rgba(70, 48, 28, 0.05);
+        position: relative;
+        overflow: hidden;
+        min-height: 120px;
+    }
+
+    .dashboard-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 4px;
+        width: 100%;
+        background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+    }
+
+    .dashboard-card h3 {
+        margin: 0 0 16px;
+        font-size: 12px;
+        color: var(--text-soft);
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+    }
+
+    .dashboard-card .value {
+        font-size: 30px;
+        font-weight: 800;
+        color: var(--text-main);
+        line-height: 1.2;
+    }
+
+    .section-title {
+        margin: 0 0 22px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 34px;
+        font-weight: 500;
+        color: var(--text-main);
+    }
+
+    .dashboard-indicators {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+    }
+
+    .indicator-box {
+        background: rgba(255,250,243,0.90);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        padding: 26px 24px;
+        box-shadow: 0 14px 30px rgba(70, 48, 28, 0.04);
+        min-height: 140px;
+    }
+
+    .indicator-box h4 {
+        margin: 0 0 14px;
+        font-size: 12px;
+        color: var(--text-soft);
+        letter-spacing: 1.6px;
+        text-transform: uppercase;
+    }
+
+    .indicator-box p {
+        margin: 0 0 8px;
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text-main);
+        line-height: 1.5;
+    }
+
+    .indicator-box small {
+        color: var(--text-soft);
+        font-size: 13px;
+    }
+
+    @media (max-width: 1150px) {
+        .dashboard-cards {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .dashboard-indicators {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 850px) {
+        .dashboard-cards {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-hero {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-hero">
+    <div>
+        <h1>Tableau de bord</h1>
+        <p>Vue synthétique de l’activité de la coopérative et de la boutique.</p>
+    </div>
+
+    <div class="hero-badge">
+        Administration
+    </div>
+</div>
+
+<div class="dashboard-cards">
+    <div class="dashboard-card">
+        <h3>Total produits</h3>
+        <div class="value">{{ dashboard_total_produits }}</div>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Total clients</h3>
+        <div class="value">{{ dashboard_total_clients }}</div>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Total commandes</h3>
+        <div class="value">{{ dashboard_total_commandes }}</div>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>Volume total</h3>
+        <div class="value">{{ dashboard_volume_total|floatformat:2 }} DH</div>
+    </div>
+</div>
+
+<h2 class="section-title">Indicateurs clés</h2>
+
+<div class="dashboard-indicators">
+    <div class="indicator-box">
+        <h4>Produit le plus commandé</h4>
+
+        {% if dashboard_produit_plus_commande %}
+            <p>{{ dashboard_produit_plus_commande.produit__nom }}</p>
+            <small>
+                Quantité commandée : {{ dashboard_produit_plus_commande.total_quantite }}
+            </small>
+        {% else %}
+            <p>Aucun produit commandé</p>
+        {% endif %}
+    </div>
+
+    <div class="indicator-box">
+        <h4>Client du mois</h4>
+
+        {% if dashboard_client_du_mois %}
+            <p>{{ dashboard_client_du_mois.client__username }}</p>
+            <small>
+                {{ dashboard_client_du_mois.nombre_commandes }} commande(s)
+            </small>
+        {% else %}
+            <p>Aucun client ce mois-ci</p>
+        {% endif %}
+    </div>
+
+    <div class="indicator-box">
+        <h4>Volume du mois</h4>
+        <p>{{ dashboard_volume_mois|floatformat:2 }} DH</p>
+        <small>
+            Commandes enregistrées ce mois-ci
+        </small>
+    </div>
+</div>
+
+{% endblock %}
