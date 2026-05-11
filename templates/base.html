@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Titrit — Coopérative Artisanale du Sud Marocain{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        beige: {
+                            50: '#FDFBF7', 100: '#F9F5EE', 200: '#F0E8DA', 300: '#ffdfc2',
+                            400: '#D4C9B8', 500: '#BEB0A0', 600: '#b88331', 700: '#8C7E6A',
+                            800: '#6B5F4F', 900: '#4A4035',
+                        },
+                        noir: {
+                            50: '#f5f5f5', 100: '#e5e5e5', 200: '#d4d4d4', 300: '#a3a3a3',
+                            400: '#737373', 500: '#525252', 600: '#2D2D2D', 700: '#1F1F1F',
+                            800: '#1A1A1A', 900: '#0D0D0D',
+                        },
+                        noisette: {
+                        DEFAULT: '#472404',  
+                        light: '#ffeede',   
+                        dark: '#1f0f01',
+                          choco:'#7d3c01',
+                        vanilla:'#FCF7E1',
+                        nude:'#c78752',
+                        caramel:'#b88331',
+                      
+}
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    {% block extra_css %}{% endblock %}
+</head>
+<body class="bg-beige-100 font-sans text-noir-800 antialiased">
+
+    <!-- Navigation fixe avec dropdown Catégories -->
+   <nav id="mainNav" class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-beige-100/80 border-b border-beige-300/50 transition-transform duration-300" style="animation: fadeIn 0.8s ease-out forwards">
+        <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+            <!-- Logo Titrit -->
+            <a href="#" class="flex items-center gap-3 group">
+               <img src="../media/titritlogo.png" alt="logo" style="width: 150px; padding-left:1px;">
+            </a>
+
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#collection" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Accueil</a>
+                
+                <!-- Dropdown Catégories -->
+                <div class="relative group">
+                    <button class="flex items-center gap-1 text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">
+                        Catégories
+                        <iconify-icon icon="mdi:chevron-down" width="14" class="transition-transform group-hover:rotate-180"></iconify-icon>
+                    </button>
+                    <div class="absolute top-full left-0 mt-2 w-56 bg-beige-50/95 backdrop-blur-xl rounded-xl shadow-xl border border-beige-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                        <div class="p-3 grid grid-cols-2 gap-1 max-h-60 overflow-y-auto">
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Idées cadeaux</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Visage</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Corps</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Cheveux</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Hammam</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Ambiance</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Desert</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Homme</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Enfant</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Parfums</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Sun</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Protect</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Voyage</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Gourmet</a>
+                            <a href="#" class="block px-3 py-1.5 text-[10px] font-medium text-noir-600 hover:bg-beige-200 rounded-lg transition-colors">Produits d'Accueil</a>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#philosophy" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Notre Histoire</a>
+                <a href="#products" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Produits</a>
+                <a href="#" class="ml-4 inline-flex items-center px-5 py-2.5 bg-noir-800 text-beige-100 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full hover:bg-noir-900 transition-colors duration-300">
+                    connexion
+                </a>
+            </div>
+
+            <!-- Bouton menu mobile -->
+            <button class="md:hidden text-noir-800" onclick="toggleMenu()">
+                <iconify-icon icon="mdi:menu" width="24"></iconify-icon>
+            </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-beige-50 border-t border-beige-300/50 px-6 py-6">
+            <div class="flex flex-col gap-4">
+                <a href="#collection" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Accueil</a>
+                <div class="relative">
+                    <button onclick="toggleMobileCategories()" class="flex items-center justify-between w-full text-[11px] font-medium tracking-widest uppercase text-noir-600">
+                        Catégories
+                        <iconify-icon id="mobileChevron" icon="mdi:chevron-down" width="16"></iconify-icon>
+                    </button>
+                    <div id="mobileCategories" class="hidden mt-2 ml-2 grid grid-cols-2 gap-1">
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Idées cadeaux</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Visage</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Corps</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Cheveux</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Hammam</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Ambiance</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Desert</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Homme</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Enfant</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Parfums</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Sun</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Protect</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Voyage</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Gourmet</a>
+                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Produits d'Accueil</a>
+                    </div>
+                </div>
+                <a href="#philosophy" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Notre Histoire</a>
+                <a href="#products" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Produits</a>
+               <a href="{% url 'connexion' %}" 
+   class="mt-2 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-noir-800 text-beige-100 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full hover:bg-noir-900 hover:text-beige-50 transition-colors duration-300">
+    <iconify-icon icon="mdi:login" width="14" height="14"></iconify-icon>
+    Connexion
+</a>
+        </div>
+    </nav>
+
+    <!-- Contenu principal -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-noir-800 py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid lg:grid-cols-12 gap-10 lg:gap-8">
+                <div class="lg:col-span-4">
+                    <div class="flex items-center gap-3 mb-6">
+                        <div class="w-8 h-8 rounded-full bg-beige-300 flex items-center justify-center">
+                            <iconify-icon icon="mdi:flower-tulip" class="text-noir-800 text-sm"></iconify-icon>
+                        </div>
+                        <span class="text-xs font-bold tracking-[0.25em] uppercase text-beige-200">Titrit</span>
+                    </div>
+                    <p class="text-sm font-light text-beige-500 leading-relaxed max-w-xs">Coopérative féminine du Sud marocain, perpétuant un artisanat authentique depuis 2010.</p>
+                </div>
+                <div class="lg:col-span-2">
+                    <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-beige-400 mb-4">Boutique</p>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">Cosmétiques</a></li>
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">Décoration</a></li>
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">Coffrets cadeaux</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-2">
+                    <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-beige-400 mb-4">À propos</p>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">Notre histoire</a></li>
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">Les artisanes</a></li>
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">Engagement</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-2">
+                    <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-beige-400 mb-4">Support</p>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">Contact</a></li>
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">Livraison</a></li>
+                        <li><a href="#" class="text-sm font-light text-beige-500 hover:text-beige-200 transition-colors">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="lg:col-span-2">
+                    <p class="text-[10px] font-bold tracking-[0.2em] uppercase text-beige-400 mb-4">Suivez-nous</p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-9 h-9 rounded-full border border-beige-600 flex items-center justify-center text-beige-400 hover:bg-beige-200 hover:text-noir-800 hover:border-beige-200 transition-all duration-300">
+                            <iconify-icon icon="mdi:instagram" width="16"></iconify-icon>
+                        </a>
+                        <a href="#" class="w-9 h-9 rounded-full border border-beige-600 flex items-center justify-center text-beige-400 hover:bg-beige-200 hover:text-noir-800 hover:border-beige-200 transition-all duration-300">
+                            <iconify-icon icon="mdi:facebook" width="16"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="h-px bg-noir-700 my-10"></div>
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-[10px] font-light text-beige-600 tracking-wider">© 2025 Coopérative Titrit. Tous droits réservés.</p>
+                <div class="flex gap-6">
+                    <a href="#" class="text-[10px] font-light text-beige-600 hover:text-beige-400 transition-colors tracking-wider">Confidentialité</a>
+                    <a href="#" class="text-[10px] font-light text-beige-600 hover:text-beige-400 transition-colors tracking-wider">Conditions</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification (global) -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-4 opacity-0 pointer-events-none transition-all duration-500">
+        <div class="bg-noir-800 text-beige-100 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
+            <iconify-icon icon="mdi:check-circle" class="text-beige-300 text-lg"></iconify-icon>
+            <span id="toastMsg" class="text-sm font-light"></span>
+        </div>
+    </div>
+
+    {% block extra_js %}{% endblock %}
+
+    <script>
+        // Menu mobile
+        function toggleMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+        function toggleMobileCategories() {
+            const cat = document.getElementById('mobileCategories');
+            const chevron = document.getElementById('mobileChevron');
+            cat.classList.toggle('hidden');
+            chevron.style.transform = cat.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+        }
+
+        // Toast générique
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = message;
+            toast.classList.remove('translate-y-4', 'opacity-0', 'pointer-events-none');
+            toast.classList.add('translate-y-0', 'opacity-100');
+            setTimeout(() => {
+                toast.classList.add('translate-y-4', 'opacity-0', 'pointer-events-none');
+                toast.classList.remove('translate-y-0', 'opacity-100');
+            }, 3000);
+        }
+
+        // Cache la navbar au scroll down, affiche au scroll up
+let lastScrollY = window.scrollY;
+const nav = document.getElementById('mainNav');
+
+window.addEventListener('scroll', () => {
+    const currentScroll = window.scrollY;
+    if (currentScroll > lastScrollY && currentScroll > 80) {
+        // on descend -> cacher la navbar
+        nav.classList.add('-translate-y-full');
+    } else {
+        // on monte -> afficher
+        nav.classList.remove('-translate-y-full');
+    }
+    lastScrollY = currentScroll;
+});
+    </script>
+</body>
+</html>

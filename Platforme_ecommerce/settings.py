@@ -58,7 +58,7 @@ ROOT_URLCONF = 'Platforme_ecommerce.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'Platforme_ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 #dyal salma
-
+"""
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
@@ -87,10 +87,10 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
+"""
 
 #dial hafsa
-"""
+
 DATABASES = {
     'default': {
         'ENGINE': 'mysql.connector.django', 
@@ -104,7 +104,7 @@ DATABASES = {
         },
     }
 }
-"""
+
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
 

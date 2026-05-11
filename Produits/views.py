@@ -8,7 +8,8 @@ def accueil(request):
 
 # LISTE (Catalogue /boutique/)
 def liste_produits(request):
-    categories = Categorie.objects.annotate(total=Count('produits'))
+
+    categories = Categorie.objects.annotate(total=Count('produits')) 
     produits = Produit.objects.all()
 
     # Filtre mot-clé
