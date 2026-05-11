@@ -14,7 +14,7 @@ class Produit(models.Model):
     nom = models.CharField(max_length=100)
     description = models.TextField(blank=True, default="")
     image = models.ImageField(upload_to='produits/', blank=True, null=True)
-
+    image = models.ImageField(upload_to='produits/', null=True, blank=True)
     prix = models.FloatField()
     stock = models.IntegerField()
 

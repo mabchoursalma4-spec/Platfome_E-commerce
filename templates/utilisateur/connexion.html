@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Connexion — Titrit{% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block footer %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen w-full flex items-center justify-center bg-beige-100 p-4 md:p-10">
+    <div class="max-w-6xl w-full grid grid-cols-1 md:grid-cols-2 bg-beige-50 rounded-[40px] shadow-2xl overflow-hidden min-h-[650px] border border-beige-200">
+        
+        <div class="relative hidden md:flex flex-col justify-between p-12 text-white overflow-hidden">
+            <div class="absolute inset-0 z-0">
+                <img src="https://images.unsplash.com/photo-1608248597279-f99d160bfcbc?q=80&w=1000&auto=format&fit=crop" 
+                     class="w-full h-full object-cover" alt="Titrit">
+                <div class="absolute inset-0 bg-noir-900/40"></div>
+            </div>
+
+            <div class="relative z-10">
+                <div class="inline-block px-4 py-1 rounded-full border border-white/40 backdrop-blur-md text-[10px] font-bold tracking-[0.2em] uppercase mb-8">
+                    Héritage Naturel
+                </div>
+                <h1 class="font-serif text-5xl lg:text-6xl leading-tight mb-6">
+                    Votre Espace <br><span class="italic font-light">Titrit</span>
+                </h1>
+                <p class="font-sans text-sm font-light text-white/90 max-w-sm leading-relaxed">
+                    Accédez à votre rituel de beauté personnalisé et suivez vos précieuses commandes.
+                </p>
+            </div>
+
+            <div class="relative z-10 flex gap-10 font-sans">
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-1">Coopérative</p>
+                    <p class="text-xs">Artisanat Local</p>
+                </div>
+                <div>
+                    <p class="text-[10px] font-bold uppercase tracking-widest text-white/60 mb-1">Qualité</p>
+                    <p class="text-xs">100% Organique</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col justify-center p-8 md:p-16 lg:p-20">
+            <div class="mb-10">
+                <h2 class="font-serif text-4xl text-noir-800 mb-2">Connexion</h2>
+                <div class="h-1 w-12 bg-beige-600 rounded-full"></div>
+            </div>
+
+            <form method="post" class="space-y-6 font-sans">
+                {% csrf_token %}
+                
+                {% for field in form %}
+                <div class="space-y-2">
+                    <label for="{{ field.id_for_label }}" class="block text-[11px] font-bold tracking-[0.15em] uppercase text-noir-500 ml-1">
+                        {{ field.label }}
+                    </label>
+                    {{ field }}
+                    {% if field.errors %}
+                        <p class="text-red-500 text-[10px] mt-1">{{ field.errors.0 }}</p>
+                    {% endif %}
+                </div>
+                {% endfor %}
+
+                <div class="flex items-center justify-between py-2">
+                    <div class="flex items-center">
+                        <input type="checkbox" class="w-4 h-4 rounded border-beige-300 text-beige-600 focus:ring-beige-600 bg-white">
+                        <label class="ml-2 text-[10px] text-noir-400 uppercase tracking-widest font-medium">Se souvenir</label>
+                    </div>
+                    <a href="#" class="text-[10px] text-beige-600 font-bold uppercase tracking-widest hover:text-noir-800 transition-colors">Oublié ?</a>
+                </div>
+
+                <button type="submit" class="w-full py-4 bg-noir-800 text-beige-100 text-[11px] font-bold tracking-[0.25em] uppercase rounded-full hover:bg-noir-900 transform hover:-translate-y-1 transition-all shadow-lg active:scale-95">
+                    Se connecter
+                </button>
+            </form>
+
+            <div class="mt-12 text-center font-sans">
+                <p class="text-xs text-noir-400 font-light">
+                    Nouveau chez Titrit ? 
+                    <a href="{% url 'inscription' %}" class="text-noir-800 font-bold border-b-2 border-beige-300 hover:border-beige-600 transition-all pb-0.5 ml-1">Créer un compte</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

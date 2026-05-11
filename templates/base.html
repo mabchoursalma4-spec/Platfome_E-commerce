@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -5,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}Titrit — Coopérative Artisanale du Sud Marocain{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
     <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
@@ -46,18 +49,17 @@
 </head>
 <body class="bg-beige-100 font-sans text-noir-800 antialiased">
 
-    <!-- Navigation fixe avec dropdown Catégories -->
-   <nav id="mainNav" class="fixed top-0 left-0 w-full z-50 backdrop-blur-xl bg-beige-100/80 border-b border-beige-300/50 transition-transform duration-300" style="animation: fadeIn 0.8s ease-out forwards">
+    {% block navbar %}
+    <!-- Fix: increased z-index and added isolate to create a new stacking context -->
+    <nav id="mainNav" class="fixed top-0 left-0 w-full z-[999] isolate backdrop-blur-xl bg-beige-100/80 border-b border-beige-300/50 transition-transform duration-300" style="animation: fadeIn 0.8s ease-out forwards">
         <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-            <!-- Logo Titrit -->
-            <a href="#" class="flex items-center gap-3 group">
-               <img src="../media/titritlogo.png" alt="logo" style="width: 150px; padding-left:1px;">
-            </a>
+         <a href="{% url 'accueil' %}" class="flex items-center gap-3 group relative z-50 w-fit">
+          <img src="{% static 'images/titritlogo.png' %}" alt="logo" style="width: 150px;">
+             </a>
 
             <div class="hidden md:flex items-center gap-8">
-                <a href="#collection" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Accueil</a>
+                <a href="{% url 'accueil' %}" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Accueil</a>
                 
-                <!-- Dropdown Catégories -->
                 <div class="relative group">
                     <button class="flex items-center gap-1 text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">
                         Catégories
@@ -86,60 +88,60 @@
 
                 <a href="#philosophy" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Notre Histoire</a>
                 <a href="#products" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Produits</a>
-                <a href="#" class="ml-4 inline-flex items-center px-5 py-2.5 bg-noir-800 text-beige-100 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full hover:bg-noir-900 transition-colors duration-300">
-                    connexion
-                </a>
+                
+                {% if user.is_authenticated %}
+                    <a href="{% url 'espace_utilisateur' %}" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Mon Espace</a>
+                    <form action="{% url 'deconnexion' %}" method="post" class="inline">
+                        {% csrf_token %}
+                        <button type="submit" class="ml-4 inline-flex items-center px-5 py-2.5 bg-red-800/10 text-red-800 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full hover:bg-red-800 hover:text-white transition-colors duration-300">
+                            Déconnexion
+                        </button>
+                    </form>
+                {% else %}
+                    <!-- FIXED CONNEXION BUTTON: inline styles ensure it's always clickable -->
+                    <a href="{% url 'connexion' %}" 
+                       class="ml-4 inline-flex items-center px-5 py-2.5 bg-noir-800 text-beige-100 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full hover:bg-noir-900 transition-all"
+                       style="position: relative; z-index: 10000; pointer-events: auto; cursor: pointer;">
+                        Connexion
+                    </a>
+                {% endif %}
             </div>
 
-            <!-- Bouton menu mobile -->
             <button class="md:hidden text-noir-800" onclick="toggleMenu()">
                 <iconify-icon icon="mdi:menu" width="24"></iconify-icon>
             </button>
         </div>
 
-        <!-- Mobile Menu -->
         <div id="mobileMenu" class="hidden md:hidden bg-beige-50 border-t border-beige-300/50 px-6 py-6">
             <div class="flex flex-col gap-4">
-                <a href="#collection" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Accueil</a>
-                <div class="relative">
-                    <button onclick="toggleMobileCategories()" class="flex items-center justify-between w-full text-[11px] font-medium tracking-widest uppercase text-noir-600">
-                        Catégories
-                        <iconify-icon id="mobileChevron" icon="mdi:chevron-down" width="16"></iconify-icon>
-                    </button>
-                    <div id="mobileCategories" class="hidden mt-2 ml-2 grid grid-cols-2 gap-1">
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Idées cadeaux</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Visage</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Corps</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Cheveux</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Hammam</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Ambiance</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Desert</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Homme</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Enfant</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Parfums</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Sun</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Protect</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Voyage</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Gourmet</a>
-                        <a href="#" class="block px-2 py-1 text-[10px] text-noir-500">Produits d'Accueil</a>
-                    </div>
-                </div>
+                <a href="{% url 'accueil' %}" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Accueil</a>
                 <a href="#philosophy" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Notre Histoire</a>
-                <a href="#products" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Produits</a>
-               <a href="{% url 'connexion' %}" 
-   class="mt-2 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-noir-800 text-beige-100 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full hover:bg-noir-900 hover:text-beige-50 transition-colors duration-300">
-    <iconify-icon icon="mdi:login" width="14" height="14"></iconify-icon>
-    Connexion
-</a>
+                
+                {% if user.is_authenticated %}
+                    <a href="{% url 'espace_utilisateur' %}" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Mon Espace</a>
+                    <form action="{% url 'deconnexion' %}" method="post" class="w-full">
+                        {% csrf_token %}
+                        <button type="submit" class="w-full mt-2 inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-red-800 text-white text-[11px] font-bold tracking-[0.15em] uppercase rounded-full"> 
+                            Déconnexion 
+                        </button>
+                    </form>
+                {% else %}
+                   
+                    <a href="{% url 'connexion' %}" 
+                       class="ml-4 inline-flex items-center px-5 py-2.5 bg-noir-800 text-beige-100 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full hover:bg-noir-900 transition-all"
+                       style="position: relative; z-index: 10000; pointer-events: auto; cursor: pointer;">
+                        Connexion
+                    </a>
+                {% endif %}
+            </div>
         </div>
     </nav>
+    {% endblock %}
 
-    <!-- Contenu principal -->
     <main>
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Footer -->
     <footer class="bg-noir-800 py-16">
         <div class="max-w-7xl mx-auto px-6">
             <div class="grid lg:grid-cols-12 gap-10 lg:gap-8">
@@ -199,7 +201,6 @@
         </div>
     </footer>
 
-    <!-- Toast Notification (global) -->
     <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-4 opacity-0 pointer-events-none transition-all duration-500">
         <div class="bg-noir-800 text-beige-100 px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3">
             <iconify-icon icon="mdi:check-circle" class="text-beige-300 text-lg"></iconify-icon>
@@ -210,7 +211,6 @@
     {% block extra_js %}{% endblock %}
 
     <script>
-        // Menu mobile
         function toggleMenu() {
             document.getElementById('mobileMenu').classList.toggle('hidden');
         }
@@ -221,7 +221,6 @@
             chevron.style.transform = cat.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
         }
 
-        // Toast générique
         function showToast(message) {
             const toast = document.getElementById('toast');
             document.getElementById('toastMsg').textContent = message;
@@ -233,21 +232,18 @@
             }, 3000);
         }
 
-        // Cache la navbar au scroll down, affiche au scroll up
-let lastScrollY = window.scrollY;
-const nav = document.getElementById('mainNav');
+        let lastScrollY = window.scrollY;
+        const nav = document.getElementById('mainNav');
 
-window.addEventListener('scroll', () => {
-    const currentScroll = window.scrollY;
-    if (currentScroll > lastScrollY && currentScroll > 80) {
-        // on descend -> cacher la navbar
-        nav.classList.add('-translate-y-full');
-    } else {
-        // on monte -> afficher
-        nav.classList.remove('-translate-y-full');
-    }
-    lastScrollY = currentScroll;
-});
+        window.addEventListener('scroll', () => {
+            const currentScroll = window.scrollY;
+            if (currentScroll > lastScrollY && currentScroll > 80) {
+                nav.classList.add('-translate-y-full');
+            } else {
+                nav.classList.remove('-translate-y-full');
+            }
+            lastScrollY = currentScroll;
+        });
     </script>
 </body>
 </html>

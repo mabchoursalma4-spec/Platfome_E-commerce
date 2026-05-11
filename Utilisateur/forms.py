@@ -5,6 +5,7 @@ from .models import Utilisateur
 
 class InscriptionForm(UserCreationForm):
     class Meta:
+        
         model = Utilisateur
         fields = [
             'username',
@@ -47,10 +48,24 @@ class InscriptionForm(UserCreationForm):
                 'class': 'form-control',
                 'placeholder': 'Adresse'
             }),
+            
         }
+    def __init__(self, *args, **kwargs):
+        super(InscriptionForm, self).__init__(*args, **kwargs)
+        
+        # Supprimer tous les messages d'aide 
+        for field in self.fields:
+            self.fields[field].help_text = None
+            
+            #  Appliquer automatiquement le style 
+            self.fields[field].widget.attrs.update({
+                'class': 'w-full px-4 py-3 bg-white border border-beige-300 rounded-xl text-sm focus:outline-none focus:border-caramel focus:ring-1 focus:ring-caramel transition-all duration-300',
+                'placeholder': f'Entrez votre {self.fields[field].label.lower()}'
+            })
+        
 
 
-class ProfilUtilisateurForm(forms.ModelForm):
+class ConnexionForm(forms.ModelForm):
     class Meta:
         model = Utilisateur
         fields = [
