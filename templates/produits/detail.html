@@ -1,11 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=h1, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <h1>Holaaaaaa</h1>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block content %}
+<section class="bg-white min-h-screen py-20 px-6"  style="margin-top: 70px;">
+    <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div class="rounded-[40px] overflow-hidden bg-beige-50 shadow-2xl">
+                {% if produit.image %}
+                    <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" class="w-full h-[600px] object-cover">
+                {% else %}
+                    <div class="w-full h-[600px] flex items-center justify-center bg-beige-100 italic text-noir-300">Image indisponible</div>
+                {% endif %}
+            </div>
+
+            <div class="space-y-8">
+                <div>
+                    <span class="text-caramel text-[11px] font-bold tracking-[0.4em] uppercase italic">Titrit Sélection</span>
+                    <h1 class="font-serif text-5xl md:text-6xl text-noir-800 mt-4 leading-tight">{{ produit.nom }}</h1>
+                </div>
+
+                <p class="text-3xl text-noir-900 font-serif italic">{{ produit.prix }} DH</p>
+
+                <div class="prose prose-neutral text-noir-500 leading-relaxed max-w-none">
+                    {{ produit.description|default:"Une pièce unique issue de l'artisanat marocain, sélectionnée pour sa qualité exceptionnelle et son histoire." }}
+                </div>
+
+                <div class="flex gap-4">
+    {% if user.is_authenticated %}
+        <a href="{% url 'ajouter_au_panier' produit.id %}" 
+           class="flex-grow bg-noir-800 text-beige-100 py-5 rounded-full text-[11px] font-bold tracking-[0.3em] uppercase text-center hover:bg-caramel transition-all shadow-xl">
+            Ajouter au Panier
+        </a>
+    {% else %}
+        <a href="{% url 'connexion' %}" 
+           class="flex-grow bg-beige-200 text-noir-400 py-5 rounded-full text-[11px] font-bold tracking-[0.3em] uppercase text-center hover:bg-beige-300 transition-all border border-beige-300">
+            Connectez-vous pour commander
+        </a>
+    {% endif %}
+
+</div>
+            
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

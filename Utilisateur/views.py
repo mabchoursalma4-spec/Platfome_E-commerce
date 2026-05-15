@@ -2,8 +2,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Utilisateur
+from .models import Utilisateur 
 from .forms import InscriptionForm, ConnexionForm
+from Commande.models import Commande
 
 def inscription(request):
     if request.method == 'POST':
@@ -50,7 +51,9 @@ def espace_utilisateur(request):
             'titre': 'Gestion des Adhérents'
         })
     else:
-        return render(request, 'utilisateur/profil.html', {
+        mes_commandes = Commande.objects.filter(client=request.user).order_by('-date_commande')
+        return render(request, 'utilisateur/profile.html', {
             'user': request.user,
-            'titre': 'Mon Profil'
+            'titre': 'Mon Profil',
+            'commandes': mes_commandes,
         })

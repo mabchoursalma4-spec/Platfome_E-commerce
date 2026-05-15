@@ -1,27 +1,98 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="container my-5">
-    <div class="row mb-4">
-        <div class="col-md-12 text-center">
-            <h2 class="display-4">Notre Catalogue</h2>
-            <hr class="mx-auto" style="width: 50px; border-top: 2px solid var(--gold-titrit);">
-        </div>
-    </div>
+<section class="bg-beige-50 min-h-screen py-12 px-6"  style="margin-top: 70px;">
+    <div class="max-w-7xl mx-auto">
+        
+        <div class="bg-white p-8 rounded-[40px] border border-beige-200 mb-12 shadow-sm">
+            <form method="GET" action="{% url 'catalogue' %}" class="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+                <div class="md:col-span-2">
+                    <label class="block text-[10px] font-bold tracking-[0.2em] uppercase text-noir-400 mb-3 ml-2">Que recherchez-vous ?</label>
+                    <input type="text" name="search" placeholder="Huile d'argan, Tapis, Poterie..." value="{{ query|default:'' }}"
+                           class="w-full px-6 py-3.5 bg-beige-50 border border-transparent rounded-full text-sm focus:bg-white focus:border-caramel transition-all outline-none">
+                </div>
+                
+                <div>
+                    <label class="block text-[10px] font-bold tracking-[0.2em] uppercase text-noir-400 mb-3 ml-2">Prix Min (DH)</label>
+                    <input type="number" name="min_price" placeholder="0" value="{{ min_p|default:'' }}"
+                           class="w-full px-6 py-3.5 bg-beige-50 border border-transparent rounded-full text-sm focus:bg-white focus:border-caramel transition-all outline-none">
+                </div>
 
-    <div class="row">
-        {% for produit in produits %}
-        <div class="col-md-4 mb-4">
-            <div class="card border-0 shadow-sm">
-                <img src="{{ produit.image.url }}" class="card-img-top" alt="{{ produit.nom }}">
-                <div class="card-body text-center">
-                    <h5 class="card-title">{{ produit.nom }}</h5>
-                    <p class="text-muted">{{ produit.prix }} DH</p>
-                    <a href="{% url 'detail_produit' id=produit.id %}" class="btn btn-outline-dark btn-sm">Détails</a>
+                <div>
+                    <label class="block text-[10px] font-bold tracking-[0.2em] uppercase text-noir-400 mb-3 ml-2">Prix Max (DH)</label>
+                    <input type="number" name="max_price" placeholder="5000" value="{{ max_p|default:'' }}"
+                           class="w-full px-6 py-3.5 bg-beige-50 border border-transparent rounded-full text-sm focus:bg-white focus:border-caramel transition-all outline-none">
+                </div>
+
+                <div class="md:col-span-4 flex justify-end gap-3 mt-4">
+                    <a href="{% url 'catalogue' %}" class="px-8 py-3 text-[10px] font-bold uppercase tracking-widest text-noir-400 hover:text-noir-800 transition-colors">
+                        Réinitialiser
+                    </a>
+                    <button type="submit" class="px-10 py-3.5 bg-noir-800 text-beige-100 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] hover:bg-caramel transition-all shadow-lg">
+                        Filtrer les trésors
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
+            {% for produit in produits %}
+            <div class="group bg-white rounded-[32px] overflow-hidden border border-beige-100 hover:shadow-2xl transition-all duration-500">
+                
+                <a href="{% url 'detail_produit' produit.pk %}" class="block relative h-72 overflow-hidden">
+                    {% if produit.image %}
+                        <img src="{{ produit.image.url }}" alt="{{ produit.nom }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700">
+                    {% else %}
+                        <div class="w-full h-full bg-beige-100 flex items-center justify-center text-[10px] uppercase text-beige-400 tracking-widest font-bold">
+                            Image Titrit
+                        </div>
+                    {% endif %}
+                    
+                    <div class="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full shadow-sm">
+                        <span class="text-noir-800 font-bold text-sm">{{ produit.prix }} DH</span>
+                    </div>
+                </a>
+
+                <div class="p-8">
+                    <div class="mb-6">
+                        <h3 class="font-serif text-xl text-noir-800 mb-1 truncate">{{ produit.nom }}</h3>
+                        <p class="text-[10px] text-caramel font-bold uppercase tracking-widest italic">Coopérative partenaire</p>
+                    </div>
+
+                    <div class="flex items-center justify-between gap-4">
+                        <a href="{% url 'detail_produit' produit.pk %}" class="text-[10px] font-bold uppercase tracking-[0.2em] text-noir-400 hover:text-noir-800 transition-colors">
+                            Détails
+                        </a>
+
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'ajouter_au_panier' produit.id %}" 
+                               class="bg-noir-800 p-3 rounded-full text-beige-100 hover:bg-caramel transition-all shadow-md transform hover:-translate-y-1"
+                               title="Ajouter au panier">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </a>
+                        {% else %}
+                            <a href="{% url 'connexion' %}" 
+                               class="bg-beige-200 p-3 rounded-full text-noir-400 hover:bg-beige-300 transition-all"
+                               title="Connectez-vous pour commander">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+                                </svg>
+                            </a>
+                        {% endif %}
+                    </div>
                 </div>
             </div>
+            {% empty %}
+            <div class="col-span-full text-center py-24 bg-white rounded-[40px] border border-dashed border-beige-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto text-beige-300 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 9.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="font-serif text-2xl italic text-noir-300">Désolé, nous n'avons pas trouvé de correspondance.</p>
+                <a href="{% url 'liste_produits' %}" class="mt-6 inline-block text-[10px] font-bold uppercase tracking-widest text-caramel hover:underline">Voir tout le catalogue</a>
+            </div>
+            {% endfor %}
         </div>
-        {% endfor %}
     </div>
-</div>
+</section>
 {% endblock %}

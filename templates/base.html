@@ -86,10 +86,9 @@
                     </div>
                 </div>
 
-                <a href="#philosophy" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Notre Histoire</a>
-                <a href="#products" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Produits</a>
+                <a href="{%url 'catalogue'%}" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Produits</a>
                 
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and not user.is_staff%}
                     <a href="{% url 'espace_utilisateur' %}" class="text-[11px] font-medium tracking-widest uppercase text-noir-500 hover:text-noir-800 transition-colors duration-300">Mon Espace</a>
                     <form action="{% url 'deconnexion' %}" method="post" class="inline">
                         {% csrf_token %}
@@ -98,7 +97,7 @@
                         </button>
                     </form>
                 {% else %}
-                    <!-- FIXED CONNEXION BUTTON: inline styles ensure it's always clickable -->
+                
                     <a href="{% url 'connexion' %}" 
                        class="ml-4 inline-flex items-center px-5 py-2.5 bg-noir-800 text-beige-100 text-[11px] font-bold tracking-[0.15em] uppercase rounded-full hover:bg-noir-900 transition-all"
                        style="position: relative; z-index: 10000; pointer-events: auto; cursor: pointer;">
@@ -117,7 +116,7 @@
                 <a href="{% url 'accueil' %}" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Accueil</a>
                 <a href="#philosophy" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Notre Histoire</a>
                 
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated or not user.is_staff %}
                     <a href="{% url 'espace_utilisateur' %}" class="text-[11px] font-medium tracking-widest uppercase text-noir-600">Mon Espace</a>
                     <form action="{% url 'deconnexion' %}" method="post" class="w-full">
                         {% csrf_token %}
