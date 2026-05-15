@@ -158,3 +158,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 DEFAULT_FROM_EMAIL = 'noreply@Tits.com'
  #Custom user model
 AUTH_USER_MODEL = 'Utilisateur.Utilisateur'
+LOGIN_REDIRECT_URL = 'espace_utilisateur'
+LOGIN_URL = 'connexion'

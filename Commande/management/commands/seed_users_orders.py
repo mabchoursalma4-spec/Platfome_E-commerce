@@ -2,7 +2,6 @@ from django.core.management.base import BaseCommand
 from django.contrib.auth import get_user_model
 from faker import Faker
 import random
-
 from Produits.models import Produit
 from Commande.models import Commande, LigneCommande, StatutCommande
 

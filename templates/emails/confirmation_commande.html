@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .body { font-family: 'serif'; background-color: #fdfcf9; padding: 20px; }
+        .card { background-color: #ffffff; border-radius: 20px; padding: 40px; max-width: 600px; margin: auto; border: 1px solid #eee; }
+        .header { text-align: center; color: #1a1a1a; }
+        .total { font-weight: bold; color: #c28e5e; font-size: 20px; border-top: 1px solid #eee; padding-top: 10px; }
+        .footer { text-align: center; font-size: 10px; color: #999; margin-top: 20px; text-transform: uppercase; }
+    </style>
+</head>
+<body class="body">
+    <div class="card">
+        <div class="header">
+            <h1 style="font-style: italic;">Merci pour votre commande, {{ user.first_name }}</h1>
+            <p style="text-transform: uppercase; letter-spacing: 2px; font-size: 10px;">Artisanat Titrit</p>
+        </div>
+        
+        <p>Nous avons bien reçu votre commande et nos artisans préparent déjà vos trésors.</p>
+        
+        <h3>Récapitulatif :</h3>
+        <ul style="list-style: none; padding: 0;">
+            {% for item in panier %}
+            <li style="margin-bottom: 10px;">
+                {{ item.quantite }}x {{ item.produit.nom }} - {{ item.sous_total }} DH
+            </li>
+            {% endfor %}
+        </ul>
+        
+        <div class="total">
+            Total : {{ total }} DH
+        </div>
+        
+        <p>Vous recevrez un nouvel email dès que votre colis sera expédié.</p>
+        
+        <div class="footer">
+            Titrit - Plateforme Coopérative Marocaine
+        </div>
+    </div>
+</body>
+</html>
